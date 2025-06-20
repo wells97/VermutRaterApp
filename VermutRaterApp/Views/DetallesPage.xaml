@@ -1,0 +1,80 @@
+<ContentPage
+    x:Class="VermutRaterApp.Views.DetallesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Detalles del Vermut">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#fffaf2">
+
+            <Label Text="{Binding Nombre}" FontSize="28" FontAttributes="Bold" TextColor="#800000" />
+            <Label Text="{Binding Descripcion}" FontSize="16" TextColor="#333" />
+
+            <Label Text="Características:" FontAttributes="Bold" FontSize="18" TextColor="#800000" />
+            <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding Caracteristicas}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="8" Margin="4" BackgroundColor="#e5d3b3" CornerRadius="12" HasShadow="True">
+                            <Label Text="{Binding}" TextColor="#4B2E2E" FontSize="12" FontAttributes="Bold" />
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <Label Text="Tu puntuación:" FontSize="16" FontAttributes="Bold" TextColor="#800000" />
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <ImageButton x:Name="Star1"
+                 Source="estrella_inactiva.png"
+                 HeightRequest="60"
+                 WidthRequest="60"
+                 BackgroundColor="Transparent"
+                 CommandParameter="1"
+                 Clicked="Estrella_Clicked" />
+                <ImageButton x:Name="Star2"
+                 Source="estrella_inactiva.png"
+                 HeightRequest="60"
+                 WidthRequest="60"
+                 BackgroundColor="Transparent"
+                 CommandParameter="2"
+                 Clicked="Estrella_Clicked" />
+                <ImageButton x:Name="Star3"
+                 Source="estrella_inactiva.png"
+                 HeightRequest="60"
+                 WidthRequest="60"
+                 BackgroundColor="Transparent"
+                 CommandParameter="3"
+                 Clicked="Estrella_Clicked" />
+                <ImageButton x:Name="Star4"
+                 Source="estrella_inactiva.png"
+                 HeightRequest="60"
+                 WidthRequest="60"
+                 BackgroundColor="Transparent"
+                 CommandParameter="4"
+                 Clicked="Estrella_Clicked" />
+                <ImageButton x:Name="Star5"
+                 Source="estrella_inactiva.png"
+                 HeightRequest="60"
+                 WidthRequest="60"
+                 BackgroundColor="Transparent"
+                 CommandParameter="5"
+                 Clicked="Estrella_Clicked" />
+            </HorizontalStackLayout>
+
+
+            <Label Text="{Binding MiPuntuacion, StringFormat='🎯 Tu voto: {0}'}" FontSize="14" TextColor="#333" />
+            <Label Text="{Binding PuntuacionGlobal, StringFormat='⭐ Global: {0:F1}'}" FontSize="14" TextColor="#333" />
+
+            <Label Text="Tu nota personal:" FontSize="16" FontAttributes="Bold" TextColor="#800000" />
+            <Frame BorderColor="#d3c0a0" CornerRadius="12" Padding="8">
+                <Editor Text="{Binding Notas}" AutoSize="TextChanges" Placeholder="Escribe tus notas aquí..." BackgroundColor="White" TextColor="#4B2E2E" />
+            </Frame>
+
+            <Button Text="Volver"
+                    Clicked="Volver_Clicked"
+                    BackgroundColor="#800000"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="45" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VermutRaterApp.Views.LoginPage"
+             BackgroundColor="#3E1F0F"
+             Title="Vermupedia">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+            <Label Text="Vermupedia"
+                   FontFamily="serif"
+                   FontSize="36"
+                   HorizontalOptions="Center"
+                   TextColor="#E6C17A" />
+
+            <Label Text="Nom d’usuari"
+                   FontSize="16"
+                   TextColor="#E6C17A" />
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Introdueix el teu email"
+                   BackgroundColor="#F7F3E3"
+                   TextColor="Black"
+                   Keyboard="Email" />
+
+            <Label Text="Contrasenya"
+                   FontSize="16"
+                   TextColor="#E6C17A" />
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="••••••••"
+                   IsPassword="True"
+                   BackgroundColor="#F7F3E3"
+                   TextColor="Black" />
+
+            <Label Text="* Només disponible dins del radi de 50 m."
+                   FontSize="12"
+                   TextColor="#E6C17A"
+                   HorizontalOptions="Center" />
+
+            <Button x:Name="LoginButton"
+                    Text="Inicia sessió"
+                    BackgroundColor="#A42A24"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    Clicked="OnLoginClicked" />
+
+            <ActivityIndicator x:Name="LoadingSpinner"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="#E6C17A"
+                               HeightRequest="40"
+                               HorizontalOptions="Center" />
+
+            <Label Text="Encara no tens compte?"
+                   TextColor="#E6C17A"
+                   HorizontalOptions="Center" />
+
+            <Button Text="Registrar-se"
+                    BackgroundColor="Transparent"
+                    TextColor="#E6C17A"
+                    FontAttributes="Bold"
+                    Clicked="OnRegisterButtonClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

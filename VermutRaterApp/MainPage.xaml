@@ -1,64 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VermutRaterApp.MainPage">
+<ContentPage
+    x:Class="VermutRaterApp.Views.MainPage"
+    x:Name="RootPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:VermutRaterApp.Views.Templates"
+    >
+    <Grid>
+        <Image Source="fondo_madera.jpg" Aspect="AspectFill" />
+    <ScrollView>
+        <VerticalStackLayout Padding="50" Spacing="10">
+            <HorizontalStackLayout Padding="10" Spacing="50" HorizontalOptions="Center">
+            <Button x:Name="BotonSorpresa"
+                    Text="🎲 Sorpresa"
+                    BackgroundColor="#5a1a14"
+                    TextColor="White"
+                    FontFamily="SerifFont"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Padding="10,5" 
+                    Clicked="BotonSorpresa_Clicked" />
 
-    <Grid x:Name="RootGrid" Padding="10">
-        <ScrollView>
-            <VerticalStackLayout Spacing="15">
-
-                <Label Text="Nuevo Vermut" FontSize="24" HorizontalOptions="Center" />
-
-                <Entry Placeholder="Nombre" Text="{Binding NuevoNombre}" />
-                <Editor Placeholder="Descripción" Text="{Binding NuevaDescripcion}" AutoSize="TextChanges" />
-                <Editor Placeholder="Notas personales" Text="{Binding NuevasNotas}" AutoSize="TextChanges" />
-
-                <Slider Minimum="1" Maximum="5" Value="{Binding NuevaPuntuacion}" />
-                <Label Text="Puntuación: {Binding NuevaPuntuacion}" />
-
-                <Image Source="{Binding ImagenSeleccionada}" HeightRequest="200" Aspect="AspectFill" />
-                <HorizontalStackLayout>
-                    <Button Text="Galería" Command="{Binding SeleccionarImagenCommand}" />
-                    <Button Text="Foto" Command="{Binding TomarFotoCommand}" />
+                    <ImageButton 
+                        Source="map_icon2.png"
+                        MaximumHeightRequest="80"
+                        MaximumWidthRequest="100"
+                        
+                    Clicked="MapaButton_Clicked"/>
                 </HorizontalStackLayout>
-
-                <Button Text="Guardar" Command="{Binding AgregarCommand}" BackgroundColor="LightGreen" />
-
-                <Label Text="Filtro" FontAttributes="Bold" />
-                <Slider Minimum="1" Maximum="5" Value="{Binding Filtro}" />
-                <Label Text="Mostrar solo favoritos:" />
-                <Switch IsToggled="{Binding SoloFavoritos}" />
-
-                <CollectionView ItemsSource="{Binding Vermuts}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="Gray" Padding="10" CornerRadius="10">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Nombre}" FontAttributes="Bold" FontSize="18" />
-                                    <Image Source="{Binding ImagenPath}" HeightRequest="150" Aspect="AspectFill" />
-                                    <Label Text="{Binding Descripcion}" />
-                                    <Label Text="Notas: {Binding Notas}" FontAttributes="Italic" FontSize="12" />
-                                    <Label Text="Puntuación: {Binding Puntuacion}" />
-                                    <HorizontalStackLayout>
-                                        <Button Text="Editar" Command="{Binding BindingContext.EditarCommand, Source={x:Reference Name=RootGrid}}" CommandParameter="{Binding}" />
-                                        <Button Text="Eliminar" Command="{Binding BindingContext.EliminarCommand, Source={x:Reference Name=RootGrid}}" CommandParameter="{Binding}" />
-                                        <Button Text="⭐" Command="{Binding BindingContext.FavoritoCommand, Source={x:Reference Name=RootGrid}}" CommandParameter="{Binding}" />
-                                        <Button Text="Compartir" Command="{Binding BindingContext.CompartirCommand, Source={x:Reference Name=RootGrid}}" CommandParameter="{Binding}" />
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-                <Button x:Name="BotonSorpresa" Text="🎲 Sorpréndeme" Command="{Binding MostrarVermutAleatorioCommand}" BackgroundColor="#800000" TextColor="White" CornerRadius="25" FontAttributes="Bold" Margin="0,10" />
-                <Button Text="📍 Ver bar en el mapa" Clicked="AbrirMapa_Clicked" />
-
-                <Frame x:Name="SorpresaFrame" IsVisible="False" Opacity="0" Padding="20" BackgroundColor="Lavender" CornerRadius="15">
-                    <Label Text="¡Sorpresa! Prueba este vermut..." HorizontalOptions="Center" FontSize="18" />
+            <!-- Sorpresa -->
+                <Frame
+                    x:Name="SorpresaFrame"
+                    BackgroundColor="#fdf0d5"
+                    BorderColor="#d3c0a0"
+                    CornerRadius="20"
+                    Padding="15"
+                    IsVisible="False"
+                    Opacity="0">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Vermut Sorpresa" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" FontFamily="SerifFont" TextColor="#4B2E2E" />
+                        <Label Text="{Binding VermutSorpresa.Nombre}" FontSize="24" FontFamily="SerifFont" FontAttributes="Bold" TextColor="#800000" HorizontalOptions="Center" />
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label Text="{Binding VermutSorpresa.PuntuacionGlobal, StringFormat='⭐ Global: {0:F1}'}" FontSize="16" FontFamily="SerifFont" />
+                            <Label Text="{Binding VermutSorpresa.MiPuntuacion, StringFormat='🎯 Tu voto: {0}'}" FontSize="16" FontFamily="SerifFont" />
+                        </HorizontalStackLayout>
+                        <Button
+                            Text="Ver detalles"
+                            FontFamily="SerifFont"
+                            FontSize="16"
+                            BackgroundColor="#800000"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            Command="{Binding IrADetallesCommand}"
+                            CommandParameter="{Binding VermutSorpresa}" />
+                    </VerticalStackLayout>
                 </Frame>
 
-            </VerticalStackLayout>
-        </ScrollView>
+                <!-- Lista de vermuts -->
+            <CollectionView x:Name="VermutCollectionView"
+                ItemsSource="{Binding Vermuts}"
+                           
+                            >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                            <views:VermutFrameView Margin="0,-71,0,0"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
     </Grid>
 </ContentPage>

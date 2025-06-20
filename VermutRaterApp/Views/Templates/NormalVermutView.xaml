@@ -1,0 +1,81 @@
+<ContentView 
+    x:Class="VermutRaterApp.Views.Templates.NormalVermutView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    >
+
+    <Grid>
+        <!-- Fondo del marco -->
+        <Image Source="marco_vermut_fondo1.png"
+               Aspect="AspectFit"
+               Opacity="1"
+               IsOpaque="true"
+               Margin="0" 
+               />
+
+        <!-- Contenido encima del marco -->
+        <AbsoluteLayout>
+
+            <!-- Nombre (fijo en su posición) -->
+            <Label Text="{Binding Nombre}"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="AntiqueWhite"
+                   FontFamily="PlayfairDisplay-Regular.ttf"
+                   AbsoluteLayout.LayoutBounds="0.5,0.27,AutoSize,AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" >
+                <Label.Shadow>
+                <Shadow Brush="Black" Offset="10,10" Radius="10" />
+                </Label.Shadow>
+            </Label>
+
+            <!-- Descripción -->
+            <Label Text="{Binding Descripcion}"
+                   FontSize="15"
+                   TextColor="AntiqueWhite"
+                   LineBreakMode="WordWrap"
+                   MaxLines="3"
+                   FontFamily="PlayfairDisplay-Regular.ttf"
+                   Margin="25,50,20,0"
+                   AbsoluteLayout.LayoutBounds="0.5,0.40,0.9,AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
+                <Label.Shadow>
+                    <Shadow Brush="Black" Offset="10,10" Radius="5" />
+                </Label.Shadow>
+            </Label>
+
+            <!-- Puntuaciones -->
+            <HorizontalStackLayout Spacing="4"
+                                   AbsoluteLayout.LayoutBounds="0.5,0.65,AutoSize,AutoSize"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                                   BackgroundColor="AntiqueWhite">
+                <Label Text="{Binding PuntuacionGlobal, StringFormat='⭐ Global: {0:F1}/5'}"
+                       FontSize="17"
+                        FontAttributes="Bold"
+                       FontFamily="PlayfairDisplay-Regular.ttf"
+                       TextColor="#333" />
+                <Label Text="{Binding MiPuntuacion, StringFormat='🎯 Tu voto: {0}/5'}"
+                       FontSize="17"
+                        FontAttributes="Bold"
+                       FontFamily="PlayfairDisplay-Regular.ttf"
+                       TextColor="#555" />
+            </HorizontalStackLayout>
+
+            <!-- Botón -->
+            <Button Text="Ver detalles"
+                     FontAttributes="Bold"
+                    FontFamily="PlayfairDisplay-Regular.ttf"
+                    FontSize="16"
+                    BackgroundColor="#800000"
+                    TextColor="White"
+                    CornerRadius="12"
+                    BorderWidth="2"
+                    BorderColor="#7f4c06"
+                    HeightRequest="40"
+                    AbsoluteLayout.LayoutBounds="0.5,0.79,150,40"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    Clicked="VerDetalles_Clicked"
+                    />
+        </AbsoluteLayout>
+    </Grid>
+</ContentView>

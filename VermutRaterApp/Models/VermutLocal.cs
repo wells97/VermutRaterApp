@@ -1,19 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace VermutRaterApp.Models
 {
-    public class Vermut : INotifyPropertyChanged
+    public class VermutLocal : INotifyPropertyChanged
     {
         private string _nombre = "";
-        private string _descripcion = "";
-        private List<string> _caracteristicas = new();
         private int _miPuntuacion;
-        private double _puntuacionGlobal;
         private string _notas = "";
         private bool _yaVotado;
-        public bool EsFavorito => MiPuntuacion >= 5;
 
 
         public string Nombre
@@ -22,28 +17,11 @@ namespace VermutRaterApp.Models
             set => SetProperty(ref _nombre, value);
         }
 
-        public string Descripcion
-        {
-            get => _descripcion;
-            set => SetProperty(ref _descripcion, value);
-        }
-
-        public List<string> Caracteristicas
-        {
-            get => _caracteristicas;
-            set => SetProperty(ref _caracteristicas, value);
-        }
 
         public int MiPuntuacion
         {
             get => _miPuntuacion;
             set => SetProperty(ref _miPuntuacion, value);
-        }
-
-        public double PuntuacionGlobal
-        {
-            get => _puntuacionGlobal;
-            set => SetProperty(ref _puntuacionGlobal, value);
         }
 
         public string Notas
