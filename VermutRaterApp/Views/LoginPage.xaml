@@ -1,64 +1,165 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VermutRaterApp.Views.LoginPage"
-             BackgroundColor="#3E1F0F"
-             Title="Vermupedia">
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20">
-            <Label Text="Vermupedia"
-                   FontFamily="serif"
-                   FontSize="36"
-                   HorizontalOptions="Center"
-                   TextColor="#E6C17A" />
+<ContentPage
+    x:Class="VermutRaterApp.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helpers="clr-namespace:VermutRaterApp.Helpers"
+    BackgroundColor="Black"
+    Padding="{OnPlatform iOS='0,40,0,0', Android='0'}"
+    Shell.NavBarIsVisible="False"
+    NavigationPage.HasNavigationBar="False">
 
-            <Label Text="Nom d’usuari"
-                   FontSize="16"
-                   TextColor="#E6C17A" />
-            <Entry x:Name="EmailEntry"
-                   Placeholder="Introdueix el teu email"
-                   BackgroundColor="#F7F3E3"
-                   TextColor="Black"
-                   Keyboard="Email" />
 
-            <Label Text="Contrasenya"
-                   FontSize="16"
-                   TextColor="#E6C17A" />
-            <Entry x:Name="PasswordEntry"
-                   Placeholder="••••••••"
-                   IsPassword="True"
-                   BackgroundColor="#F7F3E3"
-                   TextColor="Black" />
+    <Grid Margin="{OnPlatform Android='0,8,0,0', iOS='0'}"> 
+        <!-- Fondo -->
+        <Image Source="loginfons.png"
+               Aspect="AspectFill"
+               ZIndex="0" />
 
-            <Label Text="* Només disponible dins del radi de 50 m."
-                   FontSize="12"
-                   TextColor="#E6C17A"
-                   HorizontalOptions="Center" />
 
-            <Button x:Name="LoginButton"
-                    Text="Inicia sessió"
-                    BackgroundColor="#A42A24"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="10"
-                    Clicked="OnLoginClicked" />
 
-            <ActivityIndicator x:Name="LoadingSpinner"
-                               IsRunning="False"
-                               IsVisible="False"
-                               Color="#E6C17A"
-                               HeightRequest="40"
-                               HorizontalOptions="Center" />
+        <!-- Selector idioma -->
+        <VerticalStackLayout HorizontalOptions="End" VerticalOptions="Start" Padding="10" ZIndex="1000" >
+            <Grid HeightRequest="40" WidthRequest="100" >
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnIdiomaSelectorTapped" />
+                </Grid.GestureRecognizers>
 
-            <Label Text="Encara no tens compte?"
-                   TextColor="#E6C17A"
-                   HorizontalOptions="Center" />
-
-            <Button Text="Registrar-se"
-                    BackgroundColor="Transparent"
-                    TextColor="#E6C17A"
-                    FontAttributes="Bold"
-                    Clicked="OnRegisterButtonClicked" />
+                <HorizontalStackLayout Spacing="5">
+                    <Image x:Name="IdiomaIcono" Source="flag_es.png" WidthRequest="30" HeightRequest="20" VerticalOptions="Center" />
+                    <Label x:Name="IdiomaTexto" Text="ES" TextColor="#E6C17A" FontSize="14" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
         </VerticalStackLayout>
-    </ScrollView>
+
+        <!-- Contenido desplazable -->
+        <ScrollView ZIndex="998">
+            <VerticalStackLayout Padding="10" Spacing="20">
+                <!-- Decoraciones -->
+                <Image Source="decorationtop.png"
+               Aspect="AspectFit"
+          
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               ZIndex="1"
+/>
+                <!-- Logo -->
+                <Image  Source="logintitle.png"
+                       
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center" />
+
+                <!-- Email -->
+                <Label Text="{helpers:Translate Nomdusuari}" FontSize="16" FontFamily="EBGaramond-Regular" TextColor="#E6C17A" />
+                <Frame CornerRadius="8" BorderColor="#E6C17A" BackgroundColor="Transparent" Padding="3" HasShadow="False">
+                    <Grid BackgroundColor="#2B0E0C" Padding="5" ColumnDefinitions="*,auto" HeightRequest="50">
+                        <Entry x:Name="EmailEntry"
+                               FontFamily="EBGaramond-Regular"
+                               Placeholder="{helpers:Translate Introdueixelteuemail}"
+                               BackgroundColor="Transparent"
+                               TextColor="#E6C17A"
+                               PlaceholderColor="#888"
+                               Keyboard="Email"
+                               Focused="OnEntryFocused"
+                               Unfocused="OnEntryUnfocused" />
+                        <Label Text="📧" FontSize="18" HorizontalOptions="End" Margin="10,0,10,0" TextColor="#E6C17A" />
+                    </Grid>
+                </Frame>
+
+                <!-- Password -->
+                <Label Text="{helpers:Translate Contrasenya}" FontSize="16" FontFamily="EBGaramond-Regular" TextColor="#E6C17A" />
+                <Frame CornerRadius="8" BorderColor="#E6C17A" BackgroundColor="Transparent" Padding="3" HasShadow="False">
+                    <Grid BackgroundColor="#2B0E0C" Padding="5" ColumnDefinitions="*,auto" HeightRequest="50">
+                        <Entry x:Name="PasswordEntry"
+                               FontFamily="EBGaramond-Regular"
+                               Placeholder="***********"
+                               IsPassword="True"
+                               BackgroundColor="Transparent"
+                               TextColor="#E6C17A"
+                               PlaceholderColor="#888"
+                               Focused="OnEntryFocused"
+                               Unfocused="OnEntryUnfocused" />
+                        <Label Text="🔒" FontSize="18" HorizontalOptions="End" Margin="10,0,10,0" TextColor="#E6C17A" />
+                    </Grid>
+                </Frame>
+
+                <!-- Nota ubicación -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="1">
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MapaButton_Clicked"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+                    <Label Text="{helpers:Translate Nomésdisponibledinsdelradide50m}" FontSize="14" FontFamily="EBGaramond-Regular" TextColor="#E6C17A" VerticalOptions="Center" />
+                    <ImageButton Source="mapa_icono2.png"
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="50"
+                                 WidthRequest="50"
+                                 Clicked="MapaButton_Clicked" />
+                </HorizontalStackLayout>
+
+                <!-- Botón login -->
+                <Grid HeightRequest="45" WidthRequest="140">
+                    <Image Source="button.png" Aspect="AspectFit" Opacity="0.9" />
+                    <Button x:Name="LoginButton"
+                            Text="{helpers:Translate Iniciasessió}"
+                            BackgroundColor="Transparent"
+                            FontFamily="EBGaramond-Regular"
+                            TextColor="#E6C17A"
+                            Clicked="OnLoginClicked" />
+                    <ActivityIndicator x:Name="LoadingSpinner"
+                                       IsRunning="False"
+                                       IsVisible="False"
+                                       Color="#E6C17A"
+                                       HeightRequest="40"
+                                       HorizontalOptions="Center" />
+                </Grid>
+
+                <!-- Registro -->
+                
+                <VerticalStackLayout>
+                    <Label Text="{helpers:Translate Encaranotenscompte}" FontFamily="EBGaramond-Regular" TextColor="#E6C17A" HorizontalOptions="Center" />
+                    <Button Text="{helpers:Translate Registrarse}"
+                            FontFamily="EBGaramond-Regular"
+                            BackgroundColor="Transparent"
+                            TextColor="#E6C17A"
+                            BorderColor="#E6C17A"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            HeightRequest="40"
+                            Clicked="OnRegisterButtonClicked"
+                            ZIndex="999"
+                            Margin="0,2,0,0"/>
+                </VerticalStackLayout>
+                <!-- Decoraciones -->
+
+                <Image Source="decorationbottom.png"
+               Aspect="AspectFit"
+                       HorizontalOptions="FillAndExpand"              
+               VerticalOptions="End"
+               ZIndex="1" />
+                <!-- Barra de iconos-->
+
+                <Grid Grid.Row="2"
+       Padding="{OnPlatform Android='0,0,0,18', iOS='0'}"
+       HorizontalOptions="Center"
+       Margin="0,4,0,10">
+                    <HorizontalStackLayout Spacing="30">
+                        <!-- Botón Contacto -->
+                        <ImageButton Source="contacto.png"
+                      BackgroundColor="Transparent"
+                      WidthRequest="64" HeightRequest="64"
+                      Aspect="AspectFit"
+                      Clicked="OnContactoTapped"/>
+
+                        <!-- Botón Instagram -->
+                        <ImageButton Source="instagram.png"
+                      BackgroundColor="Transparent"
+                      WidthRequest="64" HeightRequest="64"
+                      Aspect="AspectFit"
+                      Clicked="OnInstagramTapped"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+           
+        </ScrollView>
+       
+    </Grid>
 </ContentPage>

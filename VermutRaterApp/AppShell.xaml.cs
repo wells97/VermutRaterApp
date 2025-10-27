@@ -9,6 +9,8 @@ namespace VermutRaterApp
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(DetallesPage), typeof(DetallesPage));
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+
 
 
 

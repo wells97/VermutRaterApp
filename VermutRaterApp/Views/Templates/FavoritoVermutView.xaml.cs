@@ -11,15 +11,26 @@ namespace VermutRaterApp.Views.Templates
             InitializeComponent();
         }
 
-        private async void VerDetalles_Clicked(object sender, EventArgs e)
+        private async void OnFrameTapped(object sender, EventArgs e)
         {
             if (BindingContext is Vermut vermut)
             {
-                await Shell.Current.GoToAsync(nameof(DetallesPage), true, new Dictionary<string, object>
+
+                try
                 {
-                    ["vermut"] = vermut
-                });
+
+                    await Shell.Current.GoToAsync(nameof(DetallesPage), true, new Dictionary<string, object>
+                    {
+                        ["vermut"] = vermut
+                    });
+
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ Error navegant a DetallesPage forçant carrega de pagina: {ex.Message}");
+                }
             }
         }
     }
+    
 }

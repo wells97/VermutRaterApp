@@ -1,51 +1,172 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VermutRaterApp.Views.RegisterPage"
-             BackgroundColor="#3E1F0F"
-             Title="Registrar-se">
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20">
-            <Label Text="Crear compte"
-                   FontFamily="serif"
-                   FontSize="28"
-                   HorizontalOptions="Center"
-                   TextColor="#E6C17A" />
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helpers="clr-namespace:VermutRaterApp.Helpers"
+    x:Class="VermutRaterApp.Views.RegisterPage"
+    Title="{helpers:Translate Registrarse}"
+    >
 
-            <Label Text="Email" FontSize="16" TextColor="#E6C17A" />
-            <Entry x:Name="EmailEntry"
-                   Placeholder="Introdueix el teu email"
-                   BackgroundColor="#F7F3E3"
-                   TextColor="Black"
-                   Keyboard="Email" />
+    <Grid Margin="{OnPlatform Android='0', iOS='0'}">
+        <!-- Imatge de fons -->
+        <Image Source="loginfons.png"
+               Aspect="AspectFill"        
+               ZIndex="0" />
 
-            <Label Text="Contrasenya" FontSize="16" TextColor="#E6C17A" />
-            <Entry x:Name="PasswordEntry"
-                   Placeholder="••••••••"
-                   IsPassword="True"
-                   BackgroundColor="#F7F3E3"
-                   TextColor="Black" />
 
-            <Label Text="* Només pots registrar-te a prop de la vermuteria."
-                   FontSize="12"
-                   TextColor="#E6C17A"
-                   HorizontalOptions="Center" />
+        <!-- Contingut -->
+        <ScrollView>
+            <VerticalStackLayout Padding="30" Spacing="20">
 
-            <Button x:Name="RegisterButton"
-                    Text="Registrar"
-                    BackgroundColor="#A42A24"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="10"
-                    IsVisible="True"
-                    Clicked="OnRegisterClicked" />
+                <Label Text="{helpers:Translate Crearcompte}"
+                       FontFamily="CinzelDecorative-Regular"
+                       FontSize="36"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#E6C17A" />
 
-            <ActivityIndicator x:Name="LoadingSpinner"
-                               IsRunning="False"
-                               IsVisible="False"
-                               Color="#E6C17A"
-                               HeightRequest="40"
-                               HorizontalOptions="Center" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <!-- EMAIL -->
+                <Label Text="{helpers:Translate Email}"
+                       FontSize="16"
+                       FontFamily="EBGaramond-Regular"
+                       TextColor="#E6C17A" />
+
+                <Frame x:Name="EmailFrame"
+                       CornerRadius="8"
+                       BorderColor="#E6C17A"
+                       BackgroundColor="Transparent"
+                       Padding="3"
+                       HasShadow="False"
+                       IsClippedToBounds="True"
+                       Margin="0,0,0,10">
+
+                    <Grid BackgroundColor="#2B0E0C"
+                          Padding="5"
+                          ColumnDefinitions="*,auto"
+                          VerticalOptions="Center"
+                          HeightRequest="50">
+
+                        <Entry x:Name="EmailEntry"
+                               Grid.Column="0"
+                               FontFamily="EBGaramond-Regular"
+                               Placeholder="{helpers:Translate Introdueixelteuemail}"
+                               BackgroundColor="Transparent"
+                               TextColor="#E6C17A"
+                               PlaceholderColor="#888"
+                               Keyboard="Email"
+                               
+                               VerticalOptions="Center"
+                               Focused="OnEntryFocused"
+                               Unfocused="OnEntryUnfocused" />
+
+                        <Label Grid.Column="1"
+                               Text="📧"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Margin="10,0,10,0"
+                               TextColor="#E6C17A" />
+
+                    </Grid>
+                </Frame>
+
+                <!-- PASSWORD -->
+                <Label Text="{helpers:Translate Contrasenya}"
+                       FontSize="16"
+                       FontFamily="EBGaramond-Regular"
+                       TextColor="#E6C17A" />
+
+                <Frame x:Name="PasswordFrame"
+                       CornerRadius="8"
+                       BorderColor="#E6C17A"
+                       BackgroundColor="Transparent"
+                       Padding="3"
+                       HasShadow="False"
+                       IsClippedToBounds="True"
+                       Margin="0,0,0,10">
+
+                    <Grid BackgroundColor="#2B0E0C"
+                          Padding="5"
+                          ColumnDefinitions="*,auto"
+                          VerticalOptions="Center"
+                          HeightRequest="50">
+
+                        <Entry x:Name="PasswordEntry"
+                               Grid.Column="0"
+                               FontFamily="EBGaramond-Regular"
+                               Placeholder="***********"
+                               IsPassword="True"
+                               BackgroundColor="Transparent"
+                               TextColor="#E6C17A"
+                               PlaceholderColor="#888"
+                               
+                               VerticalOptions="Center"
+                               Focused="OnEntryFocused"
+                               Unfocused="OnEntryUnfocused" />
+
+                        <Label Grid.Column="1"
+                               Text="🔒"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Margin="10,0,10,0"
+                               TextColor="#E6C17A" />
+
+                    </Grid>
+                </Frame>
+
+                <!-- AVÍS DE RADI -->
+                <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="8"
+                                           VerticalOptions="Center">
+                    <Label Text="{helpers:Translate Noméspotsregistrarteapropdelavermuteria}"
+                       FontFamily="EBGaramond-Regular"
+ FontSize="12"
+ TextColor="#E6C17A"
+ VerticalOptions="Center"/>
+                    <ImageButton Source="mapa_icono2.png"
+                                     Margin="0,-5,0,0"
+                                     MaximumHeightRequest="40"
+                                     MaximumWidthRequest="40"
+                                     BackgroundColor="Transparent"
+                                     VerticalOptions="Center" 
+                                 Clicked="MapaButton_Clicked"/>
+                </HorizontalStackLayout>
+                <!-- BOTÓ REGISTRAR -->
+                <Frame x:Name="RegistrarseFrame"
+                       CornerRadius="8"
+                       BackgroundColor="Transparent"
+                       Padding="0"
+                       HasShadow="False"
+                       Margin="0,0,0,10">
+
+
+                    <Grid HeightRequest="45"
+                              WidthRequest="140">
+                        <Image Source="button.png"
+                               Aspect="AspectFit"
+                               Opacity="0.9" />
+
+                        <Button x:Name="RegisterButton"
+                                WidthRequest="200"
+                                Text="{helpers:Translate Registrarse}"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontFamily="EBGaramond-Regular"
+                                HorizontalOptions="Center"
+                                IsVisible="True"
+                                Clicked="OnRegisterClicked" />
+                        <!-- LOADING -->
+                        <ActivityIndicator x:Name="LoadingSpinner"
+                    IsRunning="False"
+                    IsVisible="False"
+                    Color="#E6C17A"
+                    HeightRequest="40"
+                    HorizontalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+               
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

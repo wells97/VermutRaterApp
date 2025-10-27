@@ -1,80 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage
     x:Class="VermutRaterApp.Views.DetallesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Detalles del Vermut">
+    xmlns:helpers="clr-namespace:VermutRaterApp.Helpers"
+    xmlns:beh="clr-namespace:VermutRaterApp.Behaviors"
+    BackgroundColor="Black"
+    Shell.NavBarIsVisible="False"
+    NavigationPage.HasNavigationBar="False">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#fffaf2">
+    <Grid RowSpacing="0">
 
-            <Label Text="{Binding Nombre}" FontSize="28" FontAttributes="Bold" TextColor="#800000" />
-            <Label Text="{Binding Descripcion}" FontSize="16" TextColor="#333" />
+        <!-- Fondo -->
+        <Image Source="detallespagefons.png"
+               Aspect="AspectFill"
+               Grid.RowSpan="2"
+               InputTransparent="True"
+               ZIndex="-2" />
 
-            <Label Text="Características:" FontAttributes="Bold" FontSize="18" TextColor="#800000" />
-            <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding Caracteristicas}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Padding="8" Margin="4" BackgroundColor="#e5d3b3" CornerRadius="12" HasShadow="True">
-                            <Label Text="{Binding}" TextColor="#4B2E2E" FontSize="12" FontAttributes="Bold" />
-                        </Frame>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </FlexLayout>
+        <!-- Viewport centrado (misma idea que en MainPage) -->
+        <Grid x:Name="PageViewport" Padding="0">
+            <Grid.Behaviors>
+                <!-- Ajusta si quieres más o menos “hombro” lateral -->
+                <beh:ViewportPaddingBehavior
+                    SmallSidePct="0.036" SmallSideMin="14"
+                    SmallTopPct="0.010"  SmallTopMin="8"
+                    SmallBottomPct="0.010" SmallBottomMin="8"/>
+            </Grid.Behaviors>
 
-            <Label Text="Tu puntuación:" FontSize="16" FontAttributes="Bold" TextColor="#800000" />
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                <ImageButton x:Name="Star1"
-                 Source="estrella_inactiva.png"
-                 HeightRequest="60"
-                 WidthRequest="60"
-                 BackgroundColor="Transparent"
-                 CommandParameter="1"
-                 Clicked="Estrella_Clicked" />
-                <ImageButton x:Name="Star2"
-                 Source="estrella_inactiva.png"
-                 HeightRequest="60"
-                 WidthRequest="60"
-                 BackgroundColor="Transparent"
-                 CommandParameter="2"
-                 Clicked="Estrella_Clicked" />
-                <ImageButton x:Name="Star3"
-                 Source="estrella_inactiva.png"
-                 HeightRequest="60"
-                 WidthRequest="60"
-                 BackgroundColor="Transparent"
-                 CommandParameter="3"
-                 Clicked="Estrella_Clicked" />
-                <ImageButton x:Name="Star4"
-                 Source="estrella_inactiva.png"
-                 HeightRequest="60"
-                 WidthRequest="60"
-                 BackgroundColor="Transparent"
-                 CommandParameter="4"
-                 Clicked="Estrella_Clicked" />
-                <ImageButton x:Name="Star5"
-                 Source="estrella_inactiva.png"
-                 HeightRequest="60"
-                 WidthRequest="60"
-                 BackgroundColor="Transparent"
-                 CommandParameter="5"
-                 Clicked="Estrella_Clicked" />
-            </HorizontalStackLayout>
+            <ScrollView>
+                <!-- Todo el contenido centrado dentro del viewport -->
+                <VerticalStackLayout Spacing="14" Padding="0" HorizontalOptions="Fill">
 
+                    <!-- ===== CABECERA ===== -->
+                    <Grid Padding="0" ColumnSpacing="10"  MaximumWidthRequest="560">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-            <Label Text="{Binding MiPuntuacion, StringFormat='🎯 Tu voto: {0}'}" FontSize="14" TextColor="#333" />
-            <Label Text="{Binding PuntuacionGlobal, StringFormat='⭐ Global: {0:F1}'}" FontSize="14" TextColor="#333" />
+                        <ImageButton Source="detallespagebackbutton.png"
+                                     HeightRequest="48" WidthRequest="48"
+                                     BackgroundColor="Transparent"
+                                     Clicked="Volver_Clicked" 
+                                     HorizontalOptions="Start"
+                                     Grid.Column="0"
+                                     />
 
-            <Label Text="Tu nota personal:" FontSize="16" FontAttributes="Bold" TextColor="#800000" />
-            <Frame BorderColor="#d3c0a0" CornerRadius="12" Padding="8">
-                <Editor Text="{Binding Notas}" AutoSize="TextChanges" Placeholder="Escribe tus notas aquí..." BackgroundColor="White" TextColor="#4B2E2E" />
-            </Frame>
+                        
 
-            <Button Text="Volver"
-                    Clicked="Volver_Clicked"
-                    BackgroundColor="#800000"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HeightRequest="45" />
-        </VerticalStackLayout>
-    </ScrollView>
+                        <HorizontalStackLayout Grid.Column="2"
+                                    
+                       Spacing="3"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCheckTapped"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Label Text="{helpers:Translate Tastat}"
+           FontFamily="CinzelDecorative-Regular.ttf"
+           FontSize="Large"
+           TextColor="#D4AF37"
+           VerticalOptions="Center"/>
+
+                            <CheckBox x:Name="CheckMark"
+              Color="#D4AF37"
+              IsChecked="{Binding Tastat, Mode=TwoWay}"
+              InputTransparent="True" />
+                            <!-- deja ver, pero no recibe taps -->
+                        </HorizontalStackLayout>
+
+                    </Grid>
+
+                    <!-- ===== MARCO: NOMBRE + ORIGEN ===== -->
+                    <Grid Padding="0" HorizontalOptions="Center" MaximumWidthRequest="560">
+                        <!-- Marco decorativo -->
+                        <Image Source="detallespagemarc.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               InputTransparent="True"
+                               ZIndex="0"/>
+
+                        <!-- Contenido centrado dentro del marco -->
+                        <Grid x:Name="TitleViewport"
+                              Padding="40"
+                              HorizontalOptions="Center"
+                              VerticalOptions="Center"
+                              ZIndex="1">
+                            <VerticalStackLayout Spacing="8"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center">
+                                <Label Text="{Binding Nombre}"
+                                       FontAttributes="Bold"
+                                       FontFamily="CinzelDecorative-Regular.ttf"
+                                       TextColor="#f5deb3"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="24"
+                                       LineBreakMode="WordWrap"
+                                       MaxLines="2"/>
+
+                                <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
+                                    <Image Source="mapa_icono2.png"
+                                           WidthRequest="22" HeightRequest="22"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="{Binding Origen}"
+                                           FontSize="22"
+                                           FontFamily="EBGaramond.ttf#EB Garamond"
+                                           TextColor="#f5deb3"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Grid>
+
+                    <!-- ===== BLOQUE DE PUNTUACIÓN ===== -->
+                    <Grid Padding="0" ColumnSpacing="24" HorizontalOptions="Center" MaximumWidthRequest="560">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Separador vertical centrado -->
+                        <Image Source="detallesseparadorv.png"
+                               Grid.ColumnSpan="1"
+                               Grid.Column="1"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               HeightRequest="160"
+                               Aspect="AspectFit"
+                               InputTransparent="True"
+                               ZIndex="0" />
+
+                        <!-- TU VOTO -->
+                        <VerticalStackLayout Grid.Column="0"
+                                             Spacing="8"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             ZIndex="1">
+                            <HorizontalStackLayout x:Name="StarButtonsLayout"
+                                                   Spacing="0"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center">
+                                <ImageButton Source="estrella_inactiva.png" HeightRequest="28" WidthRequest="28"
+                                             BackgroundColor="Transparent" Clicked="Star_Clicked" CommandParameter="1"/>
+                                <ImageButton Source="estrella_inactiva.png" HeightRequest="28" WidthRequest="28"
+                                             BackgroundColor="Transparent" Clicked="Star_Clicked" CommandParameter="2"/>
+                                <ImageButton Source="estrella_inactiva.png" HeightRequest="28" WidthRequest="28"
+                                             BackgroundColor="Transparent" Clicked="Star_Clicked" CommandParameter="3"/>
+                                <ImageButton Source="estrella_inactiva.png" HeightRequest="28" WidthRequest="28"
+                                             BackgroundColor="Transparent" Clicked="Star_Clicked" CommandParameter="4"/>
+                                <ImageButton Source="estrella_inactiva.png" HeightRequest="28" WidthRequest="28"
+                                             BackgroundColor="Transparent" Clicked="Star_Clicked" CommandParameter="5"/>
+                            </HorizontalStackLayout>
+                            <Label Text="{helpers:Translate Tuvoto}"
+                                   FontSize="16"
+                                   TextColor="#D4AF37"
+                                   FontFamily="EBGaramond.ttf#EB Garamond"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+
+                        <!-- GLOBAL -->
+                        <VerticalStackLayout Grid.Column="2"
+                                             Spacing="8"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             ZIndex="1">
+                            <ImageButton x:Name="Global1" Source="got_puntuacio_1.png"
+                                         HeightRequest="90" WidthRequest="90"
+                                         IsVisible="False" IsEnabled="False"
+                                         BackgroundColor="Transparent"/>
+                            <ImageButton x:Name="Global2" Source="got_puntuacio_2.png"
+                                         HeightRequest="90" WidthRequest="90"
+                                         IsVisible="False" IsEnabled="False"
+                                         BackgroundColor="Transparent"/>
+                            <ImageButton x:Name="Global3" Source="got_puntuacio_3.png"
+                                         HeightRequest="90" WidthRequest="90"
+                                         IsVisible="False" IsEnabled="False"
+                                         BackgroundColor="Transparent"/>
+                            <ImageButton x:Name="Global4" Source="got_puntuacio_4.png"
+                                         HeightRequest="90" WidthRequest="90"
+                                         IsVisible="False" IsEnabled="False"
+                                         BackgroundColor="Transparent"/>
+                            <ImageButton x:Name="Global5" Source="got_puntuacio_5.png"
+                                         HeightRequest="90" WidthRequest="90"
+                                         IsVisible="False" IsEnabled="False"
+                                         BackgroundColor="Transparent"/>
+
+                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End">
+                                <Label x:Name="PuntuacioGlobalLabel"
+                                       Text="{helpers:Translate Global}"
+                                       FontSize="16"
+                                       TextColor="#D4AF37"
+                                       FontFamily="EBGaramond.ttf#EB Garamond"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center"/>
+                                <Label x:Name="PuntuacioGlobalTextLabel"
+                                       Text="{helpers:Translate Global}"
+                                       FontSize="16"
+                                       TextColor="#D4AF37"
+                                       FontFamily="EBGaramond.ttf#EB Garamond"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Separador -->
+                    <Image Source="detallesseparador.png"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"
+                           Margin="0,6"/>
+
+                    <!-- ===== NOTAS ===== -->
+                    <Grid x:Name="NotasBlock"
+                          Padding="0"
+                          HeightRequest="280"
+                          HorizontalOptions="Center"
+                          MaximumWidthRequest="560">
+                        <Image x:Name="NotasMarcoImg"
+                               Source="detallesnotasmarc.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Fill"
+                               InputTransparent="True"
+                               ZIndex="0"/>
+
+                        <Grid x:Name="NotasViewport"
+                              HorizontalOptions="Center"
+                              VerticalOptions="Center"
+                              Padding="60,200,36,44"
+                              ZIndex="1">
+                            <Editor x:Name="Comment"
+                                    Text="{Binding Notas}"
+                                    AutoSize="TextChanges"
+                                    FontFamily="EBGaramond.ttf#EB Garamond"
+                                    Placeholder="{helpers:Translate Escribetusnotasaquí}"
+                                    PlaceholderColor="#D4AF37"
+                                    BackgroundColor="Transparent"
+                                    TextColor="#D4AF37"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"/>
+                        </Grid>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
 </ContentPage>
+
+    

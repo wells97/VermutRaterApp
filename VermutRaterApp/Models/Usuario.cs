@@ -1,8 +1,12 @@
-
 namespace VermutRaterApp.Models
 {
-    public class Usuario
+    public static class Usuario
     {
-        public string IdentificacionHash { get; set; }
+
+        public static string Email { get; set; }
+        public static string UID { get; set; }
+
+        public static string [] whitelist {get;set;}
+
     }
 }

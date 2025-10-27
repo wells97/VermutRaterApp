@@ -10,7 +10,18 @@
                     <Shadow Brush="Black" Offset="3,3" Radius="6" Opacity="0.2" />
                 </Setter>
             </Style>
+            <!-- Oculta la barra de navegación de MAUI en TODAS las páginas -->
+            <Style TargetType="ContentPage">
+                <Setter Property="NavigationPage.HasNavigationBar" Value="False" />
+                <Setter Property="Shell.NavBarIsVisible" Value="False" />
+            </Style>
             <conv:PuntuacioVisibleConverter x:Key="PuntuacioVisibleConverter" />
+            <conv:TastatColorConverter x:Key="TastatColorConverter" />
+            <conv:PuntuacioToImageConverter x:Key="PuntuacioToImageConverter" />
+            <conv:FixedWidthWrapConverter x:Key="FixedWidthWrapConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/VermupediaStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

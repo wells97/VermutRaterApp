@@ -3,9 +3,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:VermutRaterApp.Views"
     x:Class="VermutRaterApp.AppShell"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
 
-    <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
-    <ShellContent Route="DetallesPage" ContentTemplate="{DataTemplate views:DetallesPage}" />
-    
+    <ShellContent
+        Title="Login"
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <ShellContent
+        Title="Main"
+        Route="MainPage"
+        ContentTemplate="{DataTemplate views:MainPage}" />
+
+    <ShellContent
+        Title="Detalles"
+        Route="DetallesPage"
+        ContentTemplate="{DataTemplate views:DetallesPage}" />
+
 </Shell>

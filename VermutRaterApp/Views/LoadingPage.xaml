@@ -1,13 +1,12 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VermutRaterApp.Views.LoadingPage"
-             BackgroundColor="#fffaf2"
-             NavigationPage.HasNavigationBar="False">
+<?xml version='1.0' encoding='utf-8'?>
+<ContentPage
+    x:Class="VermutRaterApp.Views.LoadingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helpers="clr-namespace:VermutRaterApp.Helpers">
 
-    <VerticalStackLayout Padding="40" Spacing="30" VerticalOptions="Center">
-        <Image Source="splash.png" HeightRequest="150" />
-        <Label Text="{Binding TextoCarga}" FontSize="18" TextColor="#800000" HorizontalOptions="Center" />
-        <ActivityIndicator IsRunning="True" Color="#a0522d" HeightRequest="40" />
-    </VerticalStackLayout>
-
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <ActivityIndicator IsRunning="True" Color="DarkRed" WidthRequest="50" HeightRequest="50" />
+        <Label Text="{helpers:Translate Carregantvermuts}" FontSize="16" TextColor="Black" Margin="0,20,0,0" />
+    </StackLayout>
 </ContentPage>

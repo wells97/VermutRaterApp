@@ -1,78 +1,103 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace VermutRaterApp.Models
 {
     public class Vermut : INotifyPropertyChanged
     {
-        private string _nombre = "";
-        private string _descripcion = "";
-        private List<string> _caracteristicas = new();
-        private int _miPuntuacion;
-        private double _puntuacionGlobal;
-        private string _notas = "";
-        private bool _yaVotado;
-        public bool EsFavorito => MiPuntuacion >= 5;
-
-
+        string _nombre;
         public string Nombre
         {
             get => _nombre;
             set => SetProperty(ref _nombre, value);
         }
 
+        string _origen;
+        public string Origen
+        {
+            get => _origen;
+            set => SetProperty(ref _origen, value);
+        }
+
+        string _descripcion;
         public string Descripcion
         {
             get => _descripcion;
             set => SetProperty(ref _descripcion, value);
         }
 
-        public List<string> Caracteristicas
+        bool _tastat;
+        public bool Tastat
         {
-            get => _caracteristicas;
-            set => SetProperty(ref _caracteristicas, value);
+            get => _tastat;
+            set => SetProperty(ref _tastat, value);
         }
 
-        public int MiPuntuacion
-        {
-            get => _miPuntuacion;
-            set => SetProperty(ref _miPuntuacion, value);
-        }
-
-        public double PuntuacionGlobal
-        {
-            get => _puntuacionGlobal;
-            set => SetProperty(ref _puntuacionGlobal, value);
-        }
-
-        public string Notas
-        {
-            get => _notas;
-            set => SetProperty(ref _notas, value);
-        }
-
+        bool _yaVotado;
         public bool YaVotado
         {
             get => _yaVotado;
             set => SetProperty(ref _yaVotado, value);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        string _notas;
+        public string Notas
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _notas;
+            set => SetProperty(ref _notas, value);
         }
 
-        protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string? propertyName = null)
+        // IMPORTANTE: dobles si permites medias/decimales
+        int _miPuntuacion;
+        public int MiPuntuacion
         {
-            if (EqualityComparer<T>.Default.Equals(backingField, value))
-                return false;
+            get => _miPuntuacion;
+            set
+            {
+                if (SetProperty(ref _miPuntuacion, value))
+                {
+                    // Si tu XAML usa converters sobre MiPuntuacion, con esto basta
+                    OnPropertyChanged(nameof(EstrellasPersonales));
+                }
+            }
+        }
 
-            backingField = value;
+        double _puntuacionGlobal;
+        public double PuntuacionGlobal
+        {
+            get => _puntuacionGlobal;
+            set
+            {
+                if (SetProperty(ref _puntuacionGlobal, value))
+                {
+                    OnPropertyChanged(nameof(EstrellasGlobales));
+                }
+            }
+        }
+        public bool EsFavorito => MiPuntuacion >= 5;
+        // Si en algún sitio pintas estrellas como enteros:
+        public int EstrellasPersonales => MiPuntuacion;
+        public int EstrellasGlobales => (int)System.Math.Round(PuntuacionGlobal);
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
+            storage = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        // Útil para forzar repintado tras operaciones en bloque
+        public void NotifyStarsChanged()
+        {
+            OnPropertyChanged(nameof(MiPuntuacion));
+            OnPropertyChanged(nameof(PuntuacionGlobal));
+            OnPropertyChanged(nameof(EstrellasPersonales));
+            OnPropertyChanged(nameof(EstrellasGlobales));
         }
     }
 }

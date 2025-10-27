@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Tema principal durante el uso de la app -->
+	<style name="Maui.MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:statusBarColor">@android:color/black</item>
+		<item name="android:navigationBarColor">@android:color/black</item>
+		<item name="android:windowBackground">@android:color/black</item>
+
+		<!-- Iconos claros (blancos) para status/nav bar -->
+		<item name="android:windowLightStatusBar">false</item>
+		<item name="android:windowLightNavigationBar">false</item>
+	</style>
+
+	<!-- Tema del splash (solo arranque) -->
+	<style name="Maui.SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:windowBackground">@drawable/maui_splash</item>
+	</style>
+
+</resources>

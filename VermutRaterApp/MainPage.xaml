@@ -1,77 +1,291 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="VermutRaterApp.Views.MainPage"
-    x:Name="RootPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:VermutRaterApp.Views.Templates"
-    >
-    <Grid>
-        <Image Source="fondo_madera.jpg" Aspect="AspectFill" />
-    <ScrollView>
-        <VerticalStackLayout Padding="50" Spacing="10">
-            <HorizontalStackLayout Padding="10" Spacing="50" HorizontalOptions="Center">
-            <Button x:Name="BotonSorpresa"
-                    Text="🎲 Sorpresa"
-                    BackgroundColor="#5a1a14"
-                    TextColor="White"
-                    FontFamily="SerifFont"
-                    FontSize="18"
-                    CornerRadius="10"
-                    Padding="10,5" 
-                    Clicked="BotonSorpresa_Clicked" />
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="VermutRaterApp.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:VermutRaterApp.Helpers"
+             xmlns:templates="clr-namespace:VermutRaterApp.Views.Templates"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
 
-                    <ImageButton 
-                        Source="map_icon2.png"
-                        MaximumHeightRequest="80"
-                        MaximumWidthRequest="100"
-                        
-                    Clicked="MapaButton_Clicked"/>
-                </HorizontalStackLayout>
-            <!-- Sorpresa -->
-                <Frame
-                    x:Name="SorpresaFrame"
-                    BackgroundColor="#fdf0d5"
-                    BorderColor="#d3c0a0"
-                    CornerRadius="20"
-                    Padding="15"
-                    IsVisible="False"
-                    Opacity="0">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="Vermut Sorpresa" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" FontFamily="SerifFont" TextColor="#4B2E2E" />
-                        <Label Text="{Binding VermutSorpresa.Nombre}" FontSize="24" FontFamily="SerifFont" FontAttributes="Bold" TextColor="#800000" HorizontalOptions="Center" />
-                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-                            <Label Text="{Binding VermutSorpresa.PuntuacionGlobal, StringFormat='⭐ Global: {0:F1}'}" FontSize="16" FontFamily="SerifFont" />
-                            <Label Text="{Binding VermutSorpresa.MiPuntuacion, StringFormat='🎯 Tu voto: {0}'}" FontSize="16" FontFamily="SerifFont" />
-                        </HorizontalStackLayout>
-                        <Button
-                            Text="Ver detalles"
-                            FontFamily="SerifFont"
-                            FontSize="16"
-                            BackgroundColor="#800000"
-                            TextColor="White"
-                            CornerRadius="10"
-                            HeightRequest="45"
-                            Command="{Binding IrADetallesCommand}"
-                            CommandParameter="{Binding VermutSorpresa}" />
-                    </VerticalStackLayout>
-                </Frame>
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                <!-- Lista de vermuts -->
-            <CollectionView x:Name="VermutCollectionView"
-                ItemsSource="{Binding Vermuts}"
-                           
-                            >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                            <views:VermutFrameView Margin="0,-71,0,0"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+        <!-- Fondo -->
+        <Image Source="loginfons.png"
+               Aspect="AspectFill"
+               InputTransparent="True"
+               Grid.RowSpan="2"
+               ZIndex="-2" />
+
+        <!-- ===== FILA 0: Botones + filtros ===== -->
+        <VerticalStackLayout Grid.Row="0" Padding="10,0,10,0" Spacing="1" ZIndex="10">
+            <Grid ColumnSpacing="25"
+      HorizontalOptions="Center"
+      Margin="0,2,0,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Botón Sorpresa -->
+                <ImageButton x:Name="BotonSorpresa"
+                 Grid.Column="0"
+                 Source="sorpresabutton2.png"
+                 BackgroundColor="Transparent"
+                 Aspect="AspectFit"
+                 HeightRequest="64"
+                 WidthRequest="115"
+                 Clicked="BotonSorpresa_Clicked" />
+
+                <!-- Botón Mapa -->
+                <ImageButton Grid.Column="1"
+                 Source="mapbutton4.png"
+                 BackgroundColor="Transparent"
+                 Aspect="AspectFit"
+                 HeightRequest="64"
+                 WidthRequest="64"
+                 Clicked="MapaButton_Clicked"/>
+
+                <!-- Selector idioma -->
+                <Grid Grid.Column="2"
+          HeightRequest="40"
+          WidthRequest="60"
+          VerticalOptions="Center"
+          ZIndex="1000">
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnIdiomaSelectorTapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Grid ColumnSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="IdiomaIcono"
+                   Grid.Column="0"
+                   Source="flag_es.png"
+                   WidthRequest="55"
+                   HeightRequest="64"
+                   VerticalOptions="Center" />
+
+                        <Label x:Name="IdiomaTexto"
+                   Grid.Column="1"
+                   Text="ES"
+                   TextColor="#E6C17A"
+                   FontSize="14"
+                   VerticalOptions="Center" />
+                    </Grid>
+                </Grid>
+            </Grid>
 
 
+            <Grid Margin="10,0,10,0" HeightRequest="28">
+                <!-- Cuadro de búsqueda -->
+                <SearchBar Placeholder="{helpers:Translate Cercarperorigenonom}"
+               Text="{Binding SearchText}"
+               Style="{StaticResource FormEntryStyle}"
+               BackgroundColor="#1A1A1A"
+               FontFamily="EBGaramond-Regular"
+               TextColor="#E6C17A"
+               PlaceholderColor="#888"
+               CancelButtonColor="#912F29"
+               HorizontalOptions="FillAndExpand"
+               HeightRequest="28"
+               />
+                <!-- deja espacio para el icono -->
 
+                <!-- Emoji de lupa -->
+                <Label Text="🔍"
+           FontSize="16"
+           VerticalOptions="Center"
+           HorizontalOptions="End"
+           Margin="0,0,10,0"
+           Opacity="0.8"
+           InputTransparent="True"/>
+                <!-- no bloquea el input -->
+            </Grid>
+
+            <Label Text="{helpers:Translate Filtrarperestat}"
+                   Style="{StaticResource BodyLabelStyle}"
+                   Margin="10,0,10,0"/>
+
+            <Picker Title="{helpers:Translate Filtrarperestat}"
+                    ItemsSource="{Binding FiltreOpcions}"
+                    SelectedItem="{Binding FiltreTastats}"
+                    TextColor="#E6C17A"
+                    FontFamily="EBGaramond-Regular"
+                    BackgroundColor="#1A1A1A"
+                    HeightRequest="36"
+                    Margin="10,0,10,0"/>
+
+            <ActivityIndicator IsRunning="{Binding IsFiltering}"
+                               IsVisible="{Binding IsFiltering}"
+                               Color="#E6C17A"
+                               HorizontalOptions="Center"
+                               Margin="0,2,0,0"/>
+
+            <Label Text="{helpers:Translate Ordenarper}"
+                   Style="{StaticResource BodyLabelStyle}"
+                   Margin="10,0,10,0"/>
+
+            <Picker ItemsSource="{Binding OrdenacioOpcions}"
+                    SelectedItem="{Binding OrdenacioSeleccionada, Mode=TwoWay}"
+                    TextColor="#E6C17A"
+                    BackgroundColor="#1A1A1A"
+                    FontFamily="EBGaramond-Regular"
+                    HeightRequest="35"
+                    Margin="10,0,10,2"/>
         </VerticalStackLayout>
-    </ScrollView>
+
+        <!-- ===== FILA 1: Marco + lista ===== -->
+        <Grid Grid.Row="1" Padding="0" RowSpacing="0" VerticalOptions="FillAndExpand">
+
+            <!-- Marco decorativo -->
+            <Image Source="bgmain.png"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill"
+                   InputTransparent="True"
+                   Margin="0"
+                   ZIndex="-1" />
+
+            <!-- Contenido dentro del marco -->
+            <Grid x:Name="FrameViewport"
+                  Padding="16,100,16,100"
+                  VerticalOptions="FillAndExpand"
+                  ZIndex="1">
+
+                <CollectionView x:Name="VermutCollectionView"
+                                ItemsSource="{Binding Vermuts}"
+                                BackgroundColor="Transparent"
+                                VerticalScrollBarVisibility="Never"
+                                ItemSizingStrategy="MeasureAllItems"
+                                VerticalOptions="FillAndExpand"
+                                Margin="0"
+                                Opacity="0">
+                    <CollectionView.Header>
+                        <Grid HeightRequest="8"/>
+                    </CollectionView.Header>
+                    <CollectionView.Footer>
+                        <Grid HeightRequest="8"/>
+                    </CollectionView.Footer>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="0"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:VermutFrameView
+                                Margin="36,6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="StartAndExpand"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+
+        <!-- ===== Overlay de CARGA (spinner centrado) ===== -->
+        <ContentView x:Name="LoadingOverlay"
+                     Grid.RowSpan="2"
+                     IsVisible="{Binding IsLoading}"
+                     BackgroundColor="#80000000"
+                     InputTransparent="False"
+                     ZIndex="500">
+            <Grid>
+                <StackLayout VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="12"
+                             Padding="24"
+                             BackgroundColor="#CC000000">
+                    <ActivityIndicator IsRunning="True"
+                                       Color="#E6C17A"
+                                       WidthRequest="48"
+                                       HeightRequest="48"/>
+                    <Label Text="{helpers:Translate Carregantvermuts}"
+                           TextColor="#E6C17A"
+                           FontAttributes="Bold"
+                           FontFamily="EBGaramond-Regular"
+                           HorizontalTextAlignment="Center"/>
+                </StackLayout>
+            </Grid>
+        </ContentView>
+
+        <!-- ===== Overlay Sorpresa ===== -->
+        <Grid x:Name="SorpresaOverlay"
+              Grid.RowSpan="2"
+              BackgroundColor="#00000080"
+              IsVisible="False"
+              Opacity="0"
+              ZIndex="999">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOverlayTapped"/>
+            </Grid.GestureRecognizers>
+
+            <Frame x:Name="SorpresaFrame"
+                   BackgroundColor="#1A1A1A"
+                   BorderColor="#E6C17A"
+                   CornerRadius="24"
+                   Padding="24"
+                   HasShadow="True"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Center"
+                   Margin="24">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Vermut Sorpresa"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           FontFamily="EBGARAMOND-Regular"
+                           TextColor="#E6C17A"/>
+                    <Label Text="{Binding VermutSorpresa.Nombre}"
+                           FontSize="36"
+                           FontFamily="CinzelDecorative-Regular"
+                           FontAttributes="Bold"
+                           TextColor="#912F29"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"/>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="14">
+                        <Label Text="{Binding VermutSorpresa.PuntuacionGlobal, StringFormat='Global: ⭐{0:F1}'}"
+                               FontSize="20"
+                               FontFamily="EBGARAMOND-Regular"
+                               TextColor="#E6C17A"/>
+                        <HorizontalStackLayout Spacing="6">
+                            <Label Text="{helpers:Translate Tuvoto}"
+                                   FontSize="20"
+                                   FontFamily="EBGARAMOND-Regular"
+                                   TextColor="#E6C17A"/>
+                            <Label Text="{Binding VermutSorpresa.MiPuntuacion, StringFormat=' : 🎯{0}'}"
+                                   FontSize="20"
+                                   FontFamily="EBGARAMOND-Regular"
+                                   TextColor="#E6C17A"/>
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- Debug (oculto) -->
+        <Label x:Name="Dbg"
+               Grid.RowSpan="2"
+               Text="DBG"
+               IsVisible="False"
+               TextColor="#00FFF7"
+               BackgroundColor="#66000000"
+               FontSize="12"
+               Padding="6"
+               HorizontalOptions="Start"
+               VerticalOptions="Start"
+               InputTransparent="True"
+               ZIndex="1000"/>
     </Grid>
 </ContentPage>
+

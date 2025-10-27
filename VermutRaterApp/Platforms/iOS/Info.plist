@@ -2,41 +2,44 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!-- The Mac App Store requires you specify if the app uses encryption. -->
-    <!-- Please consult https://developer.apple.com/documentation/bundleresources/information_property_list/itsappusesnonexemptencryption -->
-    <!-- <key>ITSAppUsesNonExemptEncryption</key> -->
-    <!-- Please indicate <true/> or <false/> here. -->
 
-    <!-- Specify the category for your app here. -->
-    <!-- Please consult https://developer.apple.com/documentation/bundleresources/information_property_list/lsapplicationcategorytype -->
-    <!-- <key>LSApplicationCategoryType</key> -->
-    <!-- <string>public.app-category.YOUR-CATEGORY-HERE</string> -->
-	<key>UIDeviceFamily</key>
-	<array>
-		<integer>2</integer>
-	</array>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>arm64</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/appicon.appiconset</string>
+  <!-- Orientaciones por defecto (ajusta si quieres forzar solo vertical) -->
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+  </array>
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+  </array>
 
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>Necessitem la teva ubicació per verificar que ets a prop de la vermuteria.</string>
+  <!-- Icono gestionado por MAUI (no toques XSAppIconAssets) -->
+  <key>XSAppIconAssets</key>
+  <string>Assets.xcassets/appicon.appiconset</string>
+
+  <!-- Ubicación (texto bilingüe) -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Necesitamos tu ubicación (Necessitem la teva ubicació) para verificar que estás cerca de la vermutería.</string>
+
+  <!-- ATS: si TODO es HTTPS, no añadas excepciones. Si cargas imágenes HTTP, añade excepciones de dominio específicas.
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key><false/>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>midominio-http.com</key>
+      <dict>
+        <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key><true/>
+        <key>NSIncludesSubdomains</key><true/>
+      </dict>
+    </dict>
+  </dict>
+  -->
 
 </dict>
 </plist>

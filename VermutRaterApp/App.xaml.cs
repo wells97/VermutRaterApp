@@ -1,19 +1,19 @@
 ﻿using Microsoft.Maui.Controls;
 using VermutRaterApp.Services;
+using VermutRaterApp.Views;
 
-namespace VermutRaterApp
+namespace VermutRaterApp;
+
+public partial class App : Application
 {
-    public partial class App : Application
+
+    public App(INotificationManagerService notificacions)
     {
-        public App()
-        {
-            InitializeComponent();
+        InitializeComponent();
+        MainPage = new AppShell();
 
-            // Inicializar el identificador único del usuario
-            UsuarioService.InicializarUsuarioAsync();
 
-            // Usar AppShell como punto de entrada
-            MainPage = new NavigationPage(new VermutRaterApp.Views.LoginPage());
-        }
     }
 }
+
+
